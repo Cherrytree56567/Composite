@@ -1,0 +1,14 @@
+# Target labels
+ glfw-populate
+# Source files and their labels
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/glfw-populate
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/fdaad987e93589b8c769d7bcfb0380d3/glfw-populate.rule
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/853c1a7a67de298bbbd50838f460f7da/glfw-populate-complete.rule
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/707fdd8b13fe716c7c9880723a723062/glfw-populate-build.rule
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/707fdd8b13fe716c7c9880723a723062/glfw-populate-configure.rule
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/707fdd8b13fe716c7c9880723a723062/glfw-populate-download.rule
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/707fdd8b13fe716c7c9880723a723062/glfw-populate-install.rule
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/707fdd8b13fe716c7c9880723a723062/glfw-populate-mkdir.rule
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/707fdd8b13fe716c7c9880723a723062/glfw-populate-patch.rule
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/707fdd8b13fe716c7c9880723a723062/glfw-populate-test.rule
+D:/Composite/build/_deps/glfw-subbuild/CMakeFiles/707fdd8b13fe716c7c9880723a723062/glfw-populate-update.rule

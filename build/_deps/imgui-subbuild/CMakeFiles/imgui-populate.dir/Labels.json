@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/imgui-populate"
+		},
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/a2c947fe47fc64f4cc9f25c138ce4bb6/imgui-populate.rule"
+		},
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/e14dfb7157940fe09a4f97f4d15be922/imgui-populate-complete.rule"
+		},
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/93c69dae3b705d0db77fde24dc29bf3b/imgui-populate-build.rule"
+		},
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/93c69dae3b705d0db77fde24dc29bf3b/imgui-populate-configure.rule"
+		},
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/93c69dae3b705d0db77fde24dc29bf3b/imgui-populate-download.rule"
+		},
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/93c69dae3b705d0db77fde24dc29bf3b/imgui-populate-install.rule"
+		},
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/93c69dae3b705d0db77fde24dc29bf3b/imgui-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/93c69dae3b705d0db77fde24dc29bf3b/imgui-populate-patch.rule"
+		},
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/93c69dae3b705d0db77fde24dc29bf3b/imgui-populate-test.rule"
+		},
+		{
+			"file" : "D:/Composite/build/_deps/imgui-subbuild/CMakeFiles/93c69dae3b705d0db77fde24dc29bf3b/imgui-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"imgui-populate"
+		],
+		"name" : "imgui-populate"
+	}
+}

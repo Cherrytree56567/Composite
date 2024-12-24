@@ -1,0 +1,10 @@
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\7EBC85551DCC67B7327D0415E03CC436\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/Composite/build/_deps/imnodeflow-subbuild -BD:/Composite/build/_deps/imnodeflow-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

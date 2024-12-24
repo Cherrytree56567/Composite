@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\2a9720579d358440eff5371b938fea01\imgui_external-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\2a9720579d358440eff5371b938fea01\imgui_external-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\2a9720579d358440eff5371b938fea01\imgui_external-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\2a9720579d358440eff5371b938fea01\imgui_external-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\2a9720579d358440eff5371b938fea01\imgui_external-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\2a9720579d358440eff5371b938fea01\imgui_external-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\2a9720579d358440eff5371b938fea01\imgui_external-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\2a9720579d358440eff5371b938fea01\imgui_external-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\9f8fb9330fa557d65951e97f4d608978\imgui_external-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\3beea5d728a4dd7fac82ead3474b9eb0\imgui_external-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Composite\build\_deps\imgui_external-subbuild\CMakeFiles\imgui_external-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{A17D9C97-47ED-3FCF-95D1-66741FF3351B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

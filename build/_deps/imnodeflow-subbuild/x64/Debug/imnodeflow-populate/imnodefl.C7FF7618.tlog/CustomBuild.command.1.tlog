@@ -1,0 +1,150 @@
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\92575F54D1F9BA9B830928C2C21C3B19\IMNODEFLOW-POPULATE-MKDIR.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -Dcfgdir=/Debug -P D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/tmp/imnodeflow-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E touch D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/src/imnodeflow-populate-stamp/Debug/imnodeflow-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\92575F54D1F9BA9B830928C2C21C3B19\IMNODEFLOW-POPULATE-DOWNLOAD.RULE
+setlocal
+cd D:\Composite\vendor
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -P D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/tmp/imnodeflow-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E touch D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/src/imnodeflow-populate-stamp/Debug/imnodeflow-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\92575F54D1F9BA9B830928C2C21C3B19\IMNODEFLOW-POPULATE-UPDATE.RULE
+setlocal
+cd D:\Composite\vendor\ImNodeFlow
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -Dcan_fetch=YES -P D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/tmp/imnodeflow-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\92575F54D1F9BA9B830928C2C21C3B19\IMNODEFLOW-POPULATE-PATCH.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E touch D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/src/imnodeflow-populate-stamp/Debug/imnodeflow-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\92575F54D1F9BA9B830928C2C21C3B19\IMNODEFLOW-POPULATE-CONFIGURE.RULE
+setlocal
+cd D:\Composite\build\_deps\imnodeflow-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E touch D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/src/imnodeflow-populate-stamp/Debug/imnodeflow-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\92575F54D1F9BA9B830928C2C21C3B19\IMNODEFLOW-POPULATE-BUILD.RULE
+setlocal
+cd D:\Composite\build\_deps\imnodeflow-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E touch D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/src/imnodeflow-populate-stamp/Debug/imnodeflow-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\92575F54D1F9BA9B830928C2C21C3B19\IMNODEFLOW-POPULATE-INSTALL.RULE
+setlocal
+cd D:\Composite\build\_deps\imnodeflow-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E touch D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/src/imnodeflow-populate-stamp/Debug/imnodeflow-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\92575F54D1F9BA9B830928C2C21C3B19\IMNODEFLOW-POPULATE-TEST.RULE
+setlocal
+cd D:\Composite\build\_deps\imnodeflow-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E touch D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/src/imnodeflow-populate-stamp/Debug/imnodeflow-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\48DFD8CF0062294C7DF9EEE1C46BDA35\IMNODEFLOW-POPULATE-COMPLETE.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E make_directory D:/Composite/build/_deps/imnodeflow-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E touch D:/Composite/build/_deps/imnodeflow-subbuild/CMakeFiles/Debug/imnodeflow-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E touch D:/Composite/build/_deps/imnodeflow-subbuild/imnodeflow-populate-prefix/src/imnodeflow-populate-stamp/Debug/imnodeflow-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKEFILES\7EBC85551DCC67B7327D0415E03CC436\IMNODEFLOW-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\COMPOSITE\BUILD\_DEPS\IMNODEFLOW-SUBBUILD\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/Composite/build/_deps/imnodeflow-subbuild -BD:/Composite/build/_deps/imnodeflow-subbuild --check-stamp-file D:/Composite/build/_deps/imnodeflow-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
