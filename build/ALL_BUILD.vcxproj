@@ -173,9 +173,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\Composite\build\MyApp.vcxproj">
-      <Project>{75B7ADB5-246E-33E3-8074-4EE9C8A97ABB}</Project>
-      <Name>MyApp</Name>
+    <ProjectReference Include="D:\Composite\build\Composite.vcxproj">
+      <Project>{48CA0228-77CF-33D9-BF41-2F43F4D17BBD}</Project>
+      <Name>Composite</Name>
     </ProjectReference>
     <ProjectReference Include="D:\Composite\build\glad.vcxproj">
       <Project>{6A2A6BD5-0F3E-3233-A54F-202CDE9FFF73}</Project>

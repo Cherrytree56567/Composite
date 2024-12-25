@@ -13,6 +13,9 @@
     <ClCompile Include="D:\Composite\vendor\ImGui\imgui_tables.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Composite\vendor\ImGui\imgui_filedialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Composite\vendor\ImGui\backends\imgui_impl_glfw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

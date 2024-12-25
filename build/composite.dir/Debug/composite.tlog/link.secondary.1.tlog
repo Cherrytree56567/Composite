@@ -1,2 +1,4 @@
-^D:\COMPOSITE\BUILD\COMPOSITE.DIR\DEBUG\MAIN.OBJ
-D:\Composite\build\composite.dir\Debug\composite.ilk
+^D:\COMPOSITE\BUILD\COMPOSITE.DIR\DEBUG\INPUT.OBJ|D:\COMPOSITE\BUILD\COMPOSITE.DIR\DEBUG\MAIN.OBJ|D:\COMPOSITE\BUILD\COMPOSITE.DIR\DEBUG\OUTPUT.OBJ
+D:\Composite\build\Debug\Composite.lib
+D:\Composite\build\Debug\Composite.EXP
+D:\Composite\build\Composite.dir\Debug\Composite.ilk

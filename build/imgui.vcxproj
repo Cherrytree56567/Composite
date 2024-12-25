@@ -273,6 +273,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Composite\vendor\ImGui\imgui_draw.cpp" />
     <ClCompile Include="D:\Composite\vendor\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="D:\Composite\vendor\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="D:\Composite\vendor\ImGui\imgui_filedialog.cpp" />
     <ClCompile Include="D:\Composite\vendor\ImGui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="D:\Composite\vendor\ImGui\backends\imgui_impl_opengl3.cpp" />
   </ItemGroup>

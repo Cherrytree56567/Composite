@@ -2,5 +2,6 @@ D:\Composite\vendor\ImGui\imgui.cpp;D:\Composite\build\imgui.dir\Debug\imgui.obj
 D:\Composite\vendor\ImGui\imgui_draw.cpp;D:\Composite\build\imgui.dir\Debug\imgui_draw.obj
 D:\Composite\vendor\ImGui\imgui_widgets.cpp;D:\Composite\build\imgui.dir\Debug\imgui_widgets.obj
 D:\Composite\vendor\ImGui\imgui_tables.cpp;D:\Composite\build\imgui.dir\Debug\imgui_tables.obj
+D:\Composite\vendor\ImGui\imgui_filedialog.cpp;D:\Composite\build\imgui.dir\Debug\imgui_filedialog.obj
 D:\Composite\vendor\ImGui\backends\imgui_impl_glfw.cpp;D:\Composite\build\imgui.dir\Debug\imgui_impl_glfw.obj
 D:\Composite\vendor\ImGui\backends\imgui_impl_opengl3.cpp;D:\Composite\build\imgui.dir\Debug\imgui_impl_opengl3.obj

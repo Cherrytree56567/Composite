@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(MyProject)
+project(Composite)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 23)
@@ -36,6 +36,7 @@ set(IMGUI_SRC
     ${VENDOR_DIR}/imgui/imgui_draw.cpp
     ${VENDOR_DIR}/imgui/imgui_widgets.cpp
     ${VENDOR_DIR}/imgui/imgui_tables.cpp
+    ${VENDOR_DIR}/imgui/imgui_filedialog.cpp
     ${VENDOR_DIR}/imgui/backends/imgui_impl_glfw.cpp
     ${VENDOR_DIR}/imgui/backends/imgui_impl_opengl3.cpp
 )
@@ -60,7 +61,16 @@ target_link_libraries(imnodeflow PRIVATE imgui glfw glad)
 # ----------------------
 # Main Application
 # ----------------------
-add_executable(MyApp src/main.cpp)
+file(GLOB_RECURSE SRC "src/*.cpp" "src/*/*.cpp")
+
+add_executable(Composite ${SRC})
+
+# ----------------------
+# STB IMAGE
+# ----------------------
+target_include_directories(Composite PUBLIC
+    ${VENDOR_DIR}/stb
+)
 
 # Link libraries to the application
-target_link_libraries(MyApp PRIVATE glfw glad imgui imnodeflow)
+target_link_libraries(Composite PRIVATE glfw glad imgui imnodeflow)
