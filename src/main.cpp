@@ -35,9 +35,8 @@ int main() {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
     ImFlow::ImNodeFlow graph;
-    auto node = graph.addNode<ImageNode>(ImVec2(100, 100));
     auto nodea = graph.addNode<OutputNode>(ImVec2(100, 100));
-    auto nodeb = graph.addNode<ColorBalanceNode>(ImVec2(100, 100));
+    auto nodeb = graph.addNode<ColorCorrectionNode>(ImVec2(100, 100));
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
@@ -56,6 +55,40 @@ int main() {
         ImGui::Begin("Node Graph", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
         graph.update();
         ImGui::End();
+
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+            ImGui::OpenPopup("RightClickToolbar"); // Open a popup for the right-click menu
+        }
+
+        // Create the right-click toolbar popup
+        if (ImGui::BeginPopup("RightClickToolbar")) {
+            // Add top-level menu items
+            if (ImGui::BeginMenu("Input")) {
+                if (ImGui::MenuItem("Image")) {
+                    auto node = graph.addNode<ImageNode>(ImVec2(100, 100));
+                }
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Output")) {
+                if (ImGui::MenuItem("Output")) {
+                    auto node = graph.addNode<OutputNode>(ImVec2(100, 100));
+                }
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Color")) {
+                if (ImGui::MenuItem("Color Balance")) {
+                    auto node = graph.addNode<ColorBalanceNode>(ImVec2(100, 100));
+                }
+                if (ImGui::MenuItem("Color Correction")) {
+                    auto node = graph.addNode<ColorCorrectionNode>(ImVec2(100, 100));
+                }
+                ImGui::EndMenu();
+            }
+
+            ImGui::EndPopup();
+        }
 
         ImGui::Render();
         int display_w, display_h;
