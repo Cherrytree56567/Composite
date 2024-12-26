@@ -317,6 +317,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="D:\Composite\src\Color\Color.cpp" />
     <ClCompile Include="D:\Composite\src\Input\Input.cpp" />
     <ClCompile Include="D:\Composite\src\Output\Output.cpp" />
     <ClCompile Include="D:\Composite\src\main.cpp" />

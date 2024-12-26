@@ -5,6 +5,10 @@ ColorBalanceNode::ColorBalanceNode() {
     setStyle(ImFlow::NodeStyle::brown());
 
     imageDataPin = addIN<Image>("Image", Image{}, ImFlow::ConnectionFilter::SameType());
+    liftDataPin = addIN<Vec3>("Lift", Vec3{}, ImFlow::ConnectionFilter::SameType());
+    gainDataPin = addIN<Vec3>("Gain", Vec3{}, ImFlow::ConnectionFilter::SameType());
+    gammaDataPin = addIN<Vec3>("Gamma", Vec3{}, ImFlow::ConnectionFilter::SameType());
+    factorDataPin = addIN<float>("Factor", float{}, ImFlow::ConnectionFilter::SameType());
     imageData = imageDataPin->val();
     imageDataOld = imageDataPin->val();
     outputImagePin = addOUT<Image>("Image");
@@ -17,41 +21,60 @@ void ColorBalanceNode::draw() {
         imageData = imageDataPin->val();
         imageDataOld = imageData;
     }
-    ImGui::BeginGroup();
-    ImGui::Text("Lift");
-    ImGui::PushItemWidth(100);
-    if (ImGui::ColorPicker3("##Lift", lift)) {
-        
-    }
-    ImGui::PopItemWidth();
-    ImGui::EndGroup();
-    ImGui::SameLine();
-
-    ImGui::BeginGroup();
-    ImGui::Text("Gain");
-    ImGui::PushItemWidth(100);
-    if (ImGui::ColorPicker3("##Gain", gain)) {
-
-    }
-    ImGui::PopItemWidth();
-    ImGui::EndGroup();
-    ImGui::SameLine();
-
-    ImGui::BeginGroup();
-    ImGui::Text("Gamma");
-    ImGui::PushItemWidth(100);
-    if (ImGui::ColorPicker3("##Gamma", gamma)) {
-
-    }
-    ImGui::PopItemWidth();
-    ImGui::EndGroup();
-
-    ImGui::Text("Factor");
-    ImGui::PushItemWidth(550);
-    if (ImGui::SliderFloat("##Factor", &factor, 0.0f, 1.0f)) {
+    if (liftDataPin->isConnected()) {
+        lift[0] = liftDataPin->val().r;
+        lift[1] = liftDataPin->val().g;
+        lift[2] = liftDataPin->val().b;
+    } else {
+        ImGui::BeginGroup();
+        ImGui::Text("Lift");
+        ImGui::PushItemWidth(100);
+        if (ImGui::ColorPicker3("##Lift", lift)) {
             
+        }
+        ImGui::PopItemWidth();
+        ImGui::EndGroup();
+        ImGui::SameLine();
     }
-    ImGui::PopItemWidth();
+    if (gainDataPin->isConnected()) {
+        gain[0] = gainDataPin->val().r;
+        gain[1] = gainDataPin->val().g;
+        gain[2] = gainDataPin->val().b;
+    } else {
+        ImGui::BeginGroup();
+        ImGui::Text("Gain");
+        ImGui::PushItemWidth(100);
+        if (ImGui::ColorPicker3("##Gain", gain)) {
+
+        }
+        ImGui::PopItemWidth();
+        ImGui::EndGroup();
+        ImGui::SameLine();
+    }
+    if (gammaDataPin->isConnected()) {
+        gamma[0] = gammaDataPin->val().r;
+        gamma[1] = gammaDataPin->val().g;
+        gamma[2] = gammaDataPin->val().b;
+    } else {
+        ImGui::BeginGroup();
+        ImGui::Text("Gamma");
+        ImGui::PushItemWidth(100);
+        if (ImGui::ColorPicker3("##Gamma", gamma)) {
+
+        }
+        ImGui::PopItemWidth();
+        ImGui::EndGroup();
+    }
+    if (factorDataPin->isConnected()) {
+        factor = factorDataPin->val();
+    } else {
+        ImGui::Text("Factor");
+        ImGui::PushItemWidth(550);
+        if (ImGui::SliderFloat("##Factor", &factor, 0.0f, 1.0f)) {
+                
+        }
+        ImGui::PopItemWidth();
+    }
 
     if (ImGui::Button("Exec")) {
         for (size_t i = 0; i < imageData.pixels.size(); i += imageData.channels) {

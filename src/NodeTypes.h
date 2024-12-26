@@ -7,3 +7,9 @@ struct Image {
     int channels = 0;
     std::string path;
 };
+
+struct Vec3 {
+    float r;
+    float g;
+    float b;
+};

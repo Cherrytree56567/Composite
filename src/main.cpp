@@ -36,7 +36,7 @@ int main() {
     ImGui_ImplOpenGL3_Init("#version 130");
     ImFlow::ImNodeFlow graph;
     auto nodea = graph.addNode<OutputNode>(ImVec2(100, 100));
-    auto nodeb = graph.addNode<ColorCorrectionNode>(ImVec2(100, 100));
+    auto nodeb = graph.addNode<ColorBalanceNode>(ImVec2(100, 100));
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
