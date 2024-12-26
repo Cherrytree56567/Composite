@@ -24,42 +24,83 @@ public:
         Image imageNew = imageDataPin->val();
         if (imageDataOld.pixels != imageNew.pixels) {
             imageData = imageDataPin->val();
-            imageDataOld = imageData;  // Update old image to current one
+            imageDataOld = imageData;
         }
-
+        ImGui::BeginGroup();
         ImGui::Text("Lift");
-        ImGui::PushItemWidth(200);
+        ImGui::PushItemWidth(100);
         if (ImGui::ColorPicker3("##Lift", lift)) {
-            for (size_t i = 0; i < imageData.pixels.size(); i += imageData.channels) {
-                imageData.pixels[i] = std::clamp(static_cast<int>(imageData.pixels[i] + lift[0] * 255), 0, 255);
-                if (imageData.channels > 1) {
-                    imageData.pixels[i + 1] = std::clamp(static_cast<int>(imageData.pixels[i + 1] + lift[1] * 255), 0, 255);
-                }
-                if (imageData.channels > 2) {
-                    imageData.pixels[i + 2] = std::clamp(static_cast<int>(imageData.pixels[i + 2] + lift[2] * 255), 0, 255);
-                }
-            }
+            
         }
         ImGui::PopItemWidth();
-
-        ImGui::Text("Gain");
+        ImGui::EndGroup();
         ImGui::SameLine();
-        ImGui::PushItemWidth(200);
-        if (ImGui::ColorPicker3("##Gain", gain)) {
-            // Apply Gain modifications here...
-        }
-        ImGui::PopItemWidth();
 
-        ImGui::Text("Gamma");
-        ImGui::PushItemWidth(200);
-        if (ImGui::ColorPicker3("##Gamma", gamma)) {
-            // Apply Gamma modifications here...
+        ImGui::BeginGroup();
+        ImGui::Text("Gain");
+        ImGui::PushItemWidth(100);
+        if (ImGui::ColorPicker3("##Gain", gain)) {
+
         }
         ImGui::PopItemWidth();
+        ImGui::EndGroup();
+        ImGui::SameLine();
+
+        ImGui::BeginGroup();
+        ImGui::Text("Gamma");
+        ImGui::PushItemWidth(100);
+        if (ImGui::ColorPicker3("##Gamma", gamma)) {
+
+        }
+        ImGui::PopItemWidth();
+        ImGui::EndGroup();
 
         ImGui::Text("Factor");
+        ImGui::PushItemWidth(550);
         if (ImGui::SliderFloat("##Factor", &factor, 0.0f, 1.0f)) {
-            // Apply Factor modifications here...
+            
+        }
+        ImGui::PopItemWidth();
+
+        if (ImGui::Button("Exec")) {
+            for (size_t i = 0; i < imageData.pixels.size(); i += imageData.channels) {
+                float originalRed = imageDataOld.pixels[i] / 255.0f;
+                float adjustedRed = std::pow((originalRed + lift[0]) * gain[0], gamma[0]);
+                imageData.pixels[i] = static_cast<uint8_t>(
+                    std::clamp(
+                        static_cast<int>(
+                            (originalRed * (1.0f - factor) + adjustedRed * factor) * 255.0f
+                        ), 
+                        0, 255
+                    )
+                );
+
+                if (imageData.channels > 1) {
+                    float originalGreen = imageDataOld.pixels[i + 1] / 255.0f;
+                    float adjustedGreen = std::pow((originalGreen + lift[1]) * gain[1], gamma[1]);
+                    imageData.pixels[i + 1] = static_cast<uint8_t>(
+                        std::clamp(
+                            static_cast<int>(
+                                (originalGreen * (1.0f - factor) + adjustedGreen * factor) * 255.0f
+                            ), 
+                            0, 255
+                        )
+                    );
+                }
+
+                if (imageData.channels > 2) {
+                    float originalBlue = imageDataOld.pixels[i + 2] / 255.0f;
+                    float adjustedBlue = std::pow((originalBlue + lift[2]) * gain[2], gamma[2]);
+                    imageData.pixels[i + 2] = static_cast<uint8_t>(
+                        std::clamp(
+                            static_cast<int>(
+                                (originalBlue * (1.0f - factor) + adjustedBlue * factor) * 255.0f
+                            ), 
+                            0, 255
+                        )
+                    );
+                }
+            }
         }
     }
 
