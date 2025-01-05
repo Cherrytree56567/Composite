@@ -2,7 +2,7 @@
 #include "stb_image.h"  // Include this if you're using stb_image for loading images
 
 OutputNode::OutputNode() {
-    setTitle("Output");
+    setTitle("Composite");
     setStyle(ImFlow::NodeStyle::cyan());
     imageDataPin = addIN<Image>("Image", imageData, ImFlow::ConnectionFilter::SameType());
     imageData = imageDataPin->val();

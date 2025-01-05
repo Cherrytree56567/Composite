@@ -4,6 +4,7 @@
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 #include <GLFW/glfw3.h>
+#include <thread>
 #include "Input/Input.h"
 #include "Output/Output.h"
 #include "Color/Color.h"
@@ -52,17 +53,97 @@ int main() {
 
         ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f), ImGuiCond_Always);
 
-        ImGui::Begin("Node Graph", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        ImGui::Begin("Node Graph", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_MenuBar);
+        if (ImGui::BeginMenuBar()) {
+            if (ImGui::BeginMenu("File")) {
+                if (ImGui::MenuItem("New")) {
+
+                }
+                if (ImGui::MenuItem("Open")) {
+
+                }
+                if (ImGui::MenuItem("Save")) {
+                    
+                }
+                if (ImGui::MenuItem("Save As")) {
+
+                }
+                ImGui::EndMenu();
+            }
+            if (false) { //ImGui::BeginMenu("Edit")) {
+                if (ImGui::MenuItem("Preferences")) {
+
+                }
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("View")) {
+                if (ImGui::MenuItem("Zoom In")) {
+                    graph.getGrid().m_scale -= 0.5;
+                }
+                if (ImGui::MenuItem("Zoom Out")) {
+                    graph.getGrid().m_scale += 0.5;
+                }
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Add")) {
+                if (ImGui::BeginMenu("Input")) {
+                    if (ImGui::MenuItem("Image")) {
+                        auto node = graph.addNode<ImageNode>(ImVec2(100, 100));
+                    }
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Output")) {
+                    if (ImGui::MenuItem("Composite")) {
+                        auto node = graph.addNode<OutputNode>(ImVec2(100, 100));
+                    }
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Color")) {
+                    if (ImGui::MenuItem("Color Balance")) {
+                        auto node = graph.addNode<ColorBalanceNode>(ImVec2(100, 100));
+                    }
+                    if (ImGui::MenuItem("Color Correction")) {
+                        auto node = graph.addNode<ColorCorrectionNode>(ImVec2(100, 100));
+                    }
+                    if (ImGui::MenuItem("Alpha Over")) {
+                        auto node = graph.addNode<AlphaOverNode>(ImVec2(100, 100));
+                    }
+                    if (ImGui::MenuItem("Exposure")) {
+                        auto node = graph.addNode<ExposureNode>(ImVec2(100, 100));
+                    }
+                    if (ImGui::MenuItem("Gamma")) {
+                        auto node = graph.addNode<GammaNode>(ImVec2(100, 100));
+                    }
+                    ImGui::EndMenu();
+                }
+                
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Render")) {
+                if (ImGui::MenuItem("Render Image")) {
+                    //std::thread t(graph.executeAll);
+                }
+                
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Help")) {
+                if (ImGui::MenuItem("About")) {
+
+                }
+                ImGui::EndMenu();
+            }
+
+            ImGui::EndMenuBar();
+        }
         graph.update();
         ImGui::End();
 
         if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
-            ImGui::OpenPopup("RightClickToolbar"); // Open a popup for the right-click menu
+            ImGui::OpenPopup("RightClickToolbar");
         }
 
-        // Create the right-click toolbar popup
         if (ImGui::BeginPopup("RightClickToolbar")) {
-            // Add top-level menu items
             if (ImGui::BeginMenu("Input")) {
                 if (ImGui::MenuItem("Image")) {
                     auto node = graph.addNode<ImageNode>(ImVec2(100, 100));
@@ -83,6 +164,15 @@ int main() {
                 }
                 if (ImGui::MenuItem("Color Correction")) {
                     auto node = graph.addNode<ColorCorrectionNode>(ImVec2(100, 100));
+                }
+                if (ImGui::MenuItem("Alpha Over")) {
+                    auto node = graph.addNode<AlphaOverNode>(ImVec2(100, 100));
+                }
+                if (ImGui::MenuItem("Exposure")) {
+                    auto node = graph.addNode<ExposureNode>(ImVec2(100, 100));
+                }
+                if (ImGui::MenuItem("Gamma")) {
+                    auto node = graph.addNode<GammaNode>(ImVec2(100, 100));
                 }
                 ImGui::EndMenu();
             }

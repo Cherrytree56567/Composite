@@ -77,45 +77,54 @@ void ColorBalanceNode::draw() {
     }
 
     if (ImGui::Button("Exec")) {
-        for (size_t i = 0; i < imageData.pixels.size(); i += imageData.channels) {
-            float originalRed = imageDataOld.pixels[i] / 255.0f;
-            float adjustedRed = std::pow((originalRed + lift[0]) * gain[0], gamma[0]);
-            imageData.pixels[i] = static_cast<uint8_t>(
+        executeColorBalance();
+    }
+}
+
+void ColorBalanceNode::executeColorBalance() {
+    for (size_t i = 0; i < imageData.pixels.size(); i += imageData.channels) {
+        float originalRed = imageDataOld.pixels[i] / 255.0f;
+        float adjustedRed = std::pow((originalRed + lift[0]) * gain[0], gamma[0]);
+        imageData.pixels[i] = static_cast<uint8_t>(
+            std::clamp(
+                static_cast<int>(
+                    (originalRed * (1.0f - factor) + adjustedRed * factor) * 255.0f
+                ), 
+                0, 255
+            )
+        );
+
+        if (imageData.channels > 1) {
+            float originalGreen = imageDataOld.pixels[i + 1] / 255.0f;
+            float adjustedGreen = std::pow((originalGreen + lift[1]) * gain[1], gamma[1]);
+            imageData.pixels[i + 1] = static_cast<uint8_t>(
                 std::clamp(
                     static_cast<int>(
-                        (originalRed * (1.0f - factor) + adjustedRed * factor) * 255.0f
+                        (originalGreen * (1.0f - factor) + adjustedGreen * factor) * 255.0f
                     ), 
                     0, 255
                 )
             );
+        }
 
-            if (imageData.channels > 1) {
-                float originalGreen = imageDataOld.pixels[i + 1] / 255.0f;
-                float adjustedGreen = std::pow((originalGreen + lift[1]) * gain[1], gamma[1]);
-                imageData.pixels[i + 1] = static_cast<uint8_t>(
-                    std::clamp(
-                        static_cast<int>(
-                            (originalGreen * (1.0f - factor) + adjustedGreen * factor) * 255.0f
-                        ), 
-                        0, 255
-                    )
-                );
-            }
-
-            if (imageData.channels > 2) {
-                float originalBlue = imageDataOld.pixels[i + 2] / 255.0f;
-                float adjustedBlue = std::pow((originalBlue + lift[2]) * gain[2], gamma[2]);
-                imageData.pixels[i + 2] = static_cast<uint8_t>(
-                    std::clamp(
-                        static_cast<int>(
-                            (originalBlue * (1.0f - factor) + adjustedBlue * factor) * 255.0f
-                        ), 
-                        0, 255
-                    )
-                );
-            }
+        if (imageData.channels > 2) {
+            float originalBlue = imageDataOld.pixels[i + 2] / 255.0f;
+            float adjustedBlue = std::pow((originalBlue + lift[2]) * gain[2], gamma[2]);
+            imageData.pixels[i + 2] = static_cast<uint8_t>(
+                std::clamp(
+                    static_cast<int>(
+                        (originalBlue * (1.0f - factor) + adjustedBlue * factor) * 255.0f
+                    ), 
+                    0, 255
+                )
+            );
         }
     }
+}
+
+void ColorBalanceNode::execute() {
+    std::cout << "Executing Node: Color Balance Node" << "\n";
+    executeColorBalance();
 }
 
 ColorCorrectionNode::ColorCorrectionNode() {
@@ -144,10 +153,6 @@ void ColorCorrectionNode::draw() {
     ImGui::SliderFloat("Contrast", &contrast, 0.0f, 2.0f);
     ImGui::SliderFloat("Saturation", &saturation, 0.0f, 2.0f);
     ImGui::PopItemWidth();
-
-    if (ImGui::Button("Exec")) {
-        applyColorCorrection();
-    }
 }
 
 void ColorCorrectionNode::applyColorCorrection() {
@@ -186,4 +191,343 @@ void ColorCorrectionNode::applyColorCorrection() {
             imageData.pixels[i + 3] = a;
         }
     }
+}
+
+void ColorCorrectionNode::execute() {
+    std::cout << "Executing Node: Color Correction Node" << "\n";
+    applyColorCorrection();
+}
+
+AlphaOverNode::AlphaOverNode() {
+    setTitle("Alpha Over");
+    setStyle(ImFlow::NodeStyle::brown());
+
+    topImagePin = addIN<Image>("Image", Image{}, ImFlow::ConnectionFilter::SameType());
+    bottomImagePin = addIN<Image>("Image", Image{}, ImFlow::ConnectionFilter::SameType());
+    factorPin = addIN<float>("Factor", float{}, ImFlow::ConnectionFilter::SameType());
+
+    outputImagePin = addOUT<Image>("Image");
+    outputImagePin->behaviour([this]() { return outputImage; });
+
+    topFallbackColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+    bottomFallbackColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
+void AlphaOverNode::draw() {
+    bool topConnected = topImagePin->isConnected();
+    bool bottomConnected = bottomImagePin->isConnected();
+
+    if (!topConnected) {
+        ImGui::Dummy(ImVec2(0.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Button, topFallbackColor);
+        if (ImGui::Button("##TopFallback", ImVec2(30, 15))) {
+            showTopColorPicker = true;
+            pickerPosition = ImGui::GetMousePos();
+        }
+        ImGui::PopStyleColor();
+    }
+
+    if (!bottomConnected) {
+        ImGui::Dummy(ImVec2(0.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Button, bottomFallbackColor);
+        if (ImGui::Button("##BottomFallback", ImVec2(30, 15))) {
+            showBottomColorPicker = true;
+            pickerPosition = ImGui::GetMousePos();
+        }
+        ImGui::PopStyleColor();
+    }
+
+    if (!factorPin->isConnected()) {
+        ImGui::Dummy(ImVec2(0.0f, 1.0f));
+        ImGui::PushItemWidth(200);
+        ImGui::SliderFloat("##AlphaFactor", &alphaFactor, 0.0f, 1.0f, "%.2f");
+        ImGui::PopItemWidth();
+    } else {
+        alphaFactor = factorPin->val();
+    }
+
+    if (showTopColorPicker) {
+        ImGui::SetNextWindowPos(pickerPosition);
+        if (ImGui::Begin("Color Picker", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove)) {
+            ImGui::ColorPicker4("##picker", (float*)&topFallbackColor);
+            if (ImGui::Button("Done")) {
+                showTopColorPicker = false;
+            }
+        }
+        ImGui::End();
+    }
+
+    if (showBottomColorPicker) {
+        ImGui::SetNextWindowPos(pickerPosition);
+        if (ImGui::Begin("Color Picker", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove)) {
+            ImGui::ColorPicker4("##picker", (float*)&bottomFallbackColor);
+            if (ImGui::Button("Done")) {
+                showBottomColorPicker = false;
+            }
+        }
+        ImGui::End();
+    }
+}
+
+void AlphaOverNode::showColorPicker(const char* title, ImVec4& color) {
+    ImGui::Begin(title, nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+    ImGui::ColorPicker4("##picker", (float*)&color);
+    ImGui::End();
+}
+
+void AlphaOverNode::scaleFallbackImage(Image& fallbackImage, const Image& targetImage, const ImVec4& fallbackColor) {
+    fallbackImage.width = targetImage.width;
+    fallbackImage.height = targetImage.height;
+    fallbackImage.channels = targetImage.channels;
+    fallbackImage.pixels.resize(targetImage.width * targetImage.height * targetImage.channels);
+
+    for (size_t i = 0; i < fallbackImage.pixels.size(); i += fallbackImage.channels) {
+        fallbackImage.pixels[i] = static_cast<unsigned char>(fallbackColor.x * 255); // R
+        fallbackImage.pixels[i + 1] = static_cast<unsigned char>(fallbackColor.y * 255); // G
+        fallbackImage.pixels[i + 2] = static_cast<unsigned char>(fallbackColor.z * 255); // B
+
+        if (fallbackImage.channels == 4) {
+            fallbackImage.pixels[i + 3] = static_cast<unsigned char>(fallbackColor.w * 255); // A
+        }
+    }
+}
+
+void AlphaOverNode::applyAlphaOver(float alphaFactor) {
+    if (!topImagePin->isConnected() && !bottomImagePin->isConnected()) {
+        topImage = {512, 512, 4};
+        bottomImage = {512, 512, 4};
+        scaleFallbackImage(topImage, bottomImage, topFallbackColor);
+        scaleFallbackImage(bottomImage, topImage, bottomFallbackColor);
+    } else if (topImagePin->isConnected() && !bottomImagePin->isConnected()) {
+        topImage = topImagePin->val();
+        scaleFallbackImage(bottomImage, topImage, bottomFallbackColor);
+    } else if (!topImagePin->isConnected() && bottomImagePin->isConnected()) {
+        bottomImage = bottomImagePin->val();
+        scaleFallbackImage(topImage, bottomImage, topFallbackColor);
+    } else {
+        topImage = topImagePin->val();
+        bottomImage = bottomImagePin->val();
+    }
+
+    if (topImage.width != bottomImage.width || topImage.height != bottomImage.height || topImage.channels != bottomImage.channels) {
+        return;
+    }
+
+    outputImage.width = topImage.width;
+    outputImage.height = topImage.height;
+    outputImage.channels = topImage.channels;
+    outputImage.pixels.resize(topImage.pixels.size());
+
+    for (size_t i = 0; i < topImage.pixels.size(); i += topImage.channels) {
+        float topAlpha = (topImage.channels == 4) ? topImage.pixels[i + 3] / 255.0f : 1.0f;
+        float bottomAlpha = (bottomImage.channels == 4) ? bottomImage.pixels[i + 3] / 255.0f : 1.0f;
+
+        float outAlpha = topAlpha * alphaFactor + bottomAlpha * (1.0f - topAlpha * alphaFactor);
+
+        for (size_t j = 0; j < 3; ++j) {
+            float topVal = topImage.pixels[i + j] / 255.0f;
+            float bottomVal = bottomImage.pixels[i + j] / 255.0f;
+
+            float blendedVal = (topVal * topAlpha * alphaFactor + bottomVal * bottomAlpha * (1.0f - topAlpha * alphaFactor)) / outAlpha;
+
+            outputImage.pixels[i + j] = static_cast<unsigned char>(blendedVal * 255);
+        }
+
+        if (topImage.channels == 4) {
+            outputImage.pixels[i + 3] = static_cast<unsigned char>(outAlpha * 255);
+        }
+    }
+}
+
+void AlphaOverNode::execute() {
+    std::cout << "Executing Node: Alpha Over Node" << "\n";
+    applyAlphaOver(alphaFactor);
+}
+
+ExposureNode::ExposureNode() {
+    setTitle("Exposure");
+    setStyle(ImFlow::NodeStyle::brown());
+
+    topImagePin = addIN<Image>("Image", Image{}, ImFlow::ConnectionFilter::SameType());
+    exposurePin = addIN<float>("Exposure", float{}, ImFlow::ConnectionFilter::SameType());
+
+    outputImagePin = addOUT<Image>("Image");
+    outputImagePin->behaviour([this]() { return outputImage; });
+
+    topFallbackColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
+void ExposureNode::draw() {
+    bool topConnected = topImagePin->isConnected();
+
+    if (!topConnected) {
+        ImGui::Dummy(ImVec2(0.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Button, topFallbackColor);
+        if (ImGui::Button("##TopFallback", ImVec2(30, 15))) {
+            showTopColorPicker = true;
+            pickerPosition = ImGui::GetMousePos();
+        }
+        ImGui::PopStyleColor();
+    }
+
+    if (!exposurePin->isConnected()) {
+        ImGui::Dummy(ImVec2(0.0f, 1.0f));
+        ImGui::PushItemWidth(200);
+        ImGui::SliderFloat("##AlphaFactor", &exposure, 0.0f, 10.0f, "%.2f");
+        ImGui::PopItemWidth();
+    } else {
+        exposure = exposurePin->val();
+    }
+
+    if (showTopColorPicker) {
+        ImGui::SetNextWindowPos(pickerPosition);
+        if (ImGui::Begin("Color Picker", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove)) {
+            ImGui::ColorPicker4("##picker", (float*)&topFallbackColor);
+            if (ImGui::Button("Done")) {
+                showTopColorPicker = false;
+            }
+        }
+        ImGui::End();
+    }
+}
+
+void ExposureNode::applyExposure(float ExposureFactor) {
+    if (topImagePin && topImagePin->isConnected()) {
+        topImage = topImagePin->val();
+    } else {
+        topImage = Image(512, 512, 4);
+        topImage.pixels.resize(topImage.width * topImage.height * topImage.channels);
+
+        unsigned char r = static_cast<unsigned char>(topFallbackColor.x * 255);
+        unsigned char g = static_cast<unsigned char>(topFallbackColor.y * 255);
+        unsigned char b = static_cast<unsigned char>(topFallbackColor.z * 255);
+        unsigned char a = static_cast<unsigned char>(topFallbackColor.w * 255);
+
+        for (size_t i = 0; i < topImage.pixels.size(); i += 4) {
+            topImage.pixels[i] = r;
+            topImage.pixels[i + 1] = g;
+            topImage.pixels[i + 2] = b;
+            topImage.pixels[i + 3] = a;
+        }
+    }
+
+    auto applyExposure = [](float value, float exposure) -> float {
+        return 1.0f - std::exp(-value * exposure);
+    };
+
+    outputImage.width = topImage.width;
+    outputImage.height = topImage.height;
+    outputImage.channels = topImage.channels;
+    outputImage.pixels.resize(topImage.pixels.size());
+
+    for (size_t i = 0; i < topImage.pixels.size(); i += topImage.channels) {
+        for (size_t j = 0; j < 3; ++j) {
+            float topVal = topImage.pixels[i + j] / 255.0f;
+            float exposedVal = applyExposure(topVal, exposure);
+            outputImage.pixels[i + j] = static_cast<unsigned char>(exposedVal * 255);
+        }
+
+        if (topImage.channels == 4) {
+            outputImage.pixels[i + 3] = topImage.pixels[i + 3];
+        }
+    }
+}
+
+void ExposureNode::execute() {
+    std::cout << "Executing Node: Exposure Node" << "\n";
+    applyExposure(exposure);
+}
+
+GammaNode::GammaNode() {
+    setTitle("Gamma");
+    setStyle(ImFlow::NodeStyle::brown());
+
+    topImagePin = addIN<Image>("Image", Image{}, ImFlow::ConnectionFilter::SameType());
+    gammaPin = addIN<float>("Gamma", float{}, ImFlow::ConnectionFilter::SameType());
+
+    outputImagePin = addOUT<Image>("Image");
+    outputImagePin->behaviour([this]() { return outputImage; });
+
+    topFallbackColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
+void GammaNode::draw() {
+    bool topConnected = topImagePin->isConnected();
+
+    if (!topConnected) {
+        ImGui::Dummy(ImVec2(0.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Button, topFallbackColor);
+        if (ImGui::Button("##TopFallback", ImVec2(30, 15))) {
+            showTopColorPicker = true;
+            pickerPosition = ImGui::GetMousePos();
+        }
+        ImGui::PopStyleColor();
+    }
+
+    if (!gammaPin->isConnected()) {
+        ImGui::Dummy(ImVec2(0.0f, 1.0f));
+        ImGui::PushItemWidth(200);
+        ImGui::SliderFloat("Gamma", &gamma, 0.0f, 10.0f, "%.2f");
+        ImGui::PopItemWidth();
+    } else {
+        gamma = gammaPin->val();
+    }
+
+    if (showTopColorPicker) {
+        ImGui::SetNextWindowPos(pickerPosition);
+        if (ImGui::Begin("Color Picker", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove)) {
+            ImGui::ColorPicker4("##picker", (float*)&topFallbackColor);
+            if (ImGui::Button("Done")) {
+                showTopColorPicker = false;
+            }
+        }
+        ImGui::End();
+    }
+}
+
+void GammaNode::applyGamma(float Gamma) {
+    if (topImagePin && topImagePin->isConnected()) {
+        topImage = topImagePin->val();
+    } else {
+        topImage = Image(512, 512, 4);
+        topImage.pixels.resize(topImage.width * topImage.height * topImage.channels);
+
+        unsigned char r = static_cast<unsigned char>(topFallbackColor.x * 255);
+        unsigned char g = static_cast<unsigned char>(topFallbackColor.y * 255);
+        unsigned char b = static_cast<unsigned char>(topFallbackColor.z * 255);
+        unsigned char a = static_cast<unsigned char>(topFallbackColor.w * 255);
+
+        for (size_t i = 0; i < topImage.pixels.size(); i += 4) {
+            topImage.pixels[i] = r;
+            topImage.pixels[i + 1] = g;
+            topImage.pixels[i + 2] = b;
+            topImage.pixels[i + 3] = a;
+        }
+    }
+
+    auto applyGamma = [](float value, float gamma) -> float {
+        return std::pow(value, gamma);
+    };
+
+    outputImage.width = topImage.width;
+    outputImage.height = topImage.height;
+    outputImage.channels = topImage.channels;
+    outputImage.pixels.resize(topImage.pixels.size());
+
+    for (size_t i = 0; i < topImage.pixels.size(); i += topImage.channels) {
+        for (size_t j = 0; j < 3; ++j) {
+            float topVal = topImage.pixels[i + j] / 255.0f;
+            float gammaCorrectedVal = applyGamma(topVal, gamma);
+            outputImage.pixels[i + j] = static_cast<unsigned char>(gammaCorrectedVal * 255);
+        }
+
+        if (topImage.channels == 4) {
+            outputImage.pixels[i + 3] = topImage.pixels[i + 3];
+        }
+    }
+}
+
+void GammaNode::execute() {
+    std::cout << "Executing Node: Gamma Node" << "\n";
+    applyGamma(gamma);
 }

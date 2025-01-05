@@ -1,6 +1,8 @@
 #pragma once
 
 struct Image {
+    Image() {}
+    Image(int w, int h, int c) : width(w), height(h), channels(c) {}
     std::vector<unsigned char> pixels;
     int width = 0;
     int height = 0;

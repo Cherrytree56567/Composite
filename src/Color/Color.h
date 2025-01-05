@@ -10,8 +10,10 @@ class ColorBalanceNode : public ImFlow::BaseNode {
 public:
     ColorBalanceNode();
     void draw() override;
+    void execute() override;
 
 private:
+    void executeColorBalance();
     Image imageData;
     Image imageDataOld;
     GLuint textureID;
@@ -36,6 +38,7 @@ class ColorCorrectionNode : public ImFlow::BaseNode {
 public:
     ColorCorrectionNode();
     void draw() override;
+    void execute() override;
 
 private:
     void applyColorCorrection();
@@ -54,4 +57,77 @@ private:
     std::shared_ptr<ImFlow::InPin<float>> brightnessDataPin;
     std::shared_ptr<ImFlow::InPin<float>> contrastDataPin;
     std::shared_ptr<ImFlow::InPin<float>> saturationDataPin;
+};
+
+class AlphaOverNode : public ImFlow::BaseNode {
+public:
+    AlphaOverNode();
+    void draw() override;
+    void execute() override;
+
+private:
+    void applyAlphaOver(float alphaFactor);
+    void showColorPicker(const char* title, ImVec4& color);
+    void scaleFallbackImage(Image& fallbackImage, const Image& targetImage, const ImVec4& fallbackColor);
+
+    Image topImage;
+    Image bottomImage;
+    Image outputImage;
+
+    std::shared_ptr<ImFlow::InPin<Image>> topImagePin;
+    std::shared_ptr<ImFlow::InPin<Image>> bottomImagePin;
+    std::shared_ptr<ImFlow::InPin<float>> factorPin;
+    std::shared_ptr<ImFlow::OutPin<Image>> outputImagePin;
+
+    ImVec4 topFallbackColor;
+    ImVec4 bottomFallbackColor;
+    float alphaFactor = 0.5f;
+
+    bool showTopColorPicker = false;
+    bool showBottomColorPicker = false;
+    ImVec2 pickerPosition;
+};
+
+class ExposureNode : public ImFlow::BaseNode {
+public:
+    ExposureNode();
+    void draw() override;
+    void execute() override;
+
+private:
+    void applyExposure(float ExposureFactor);
+    Image topImage;
+    Image outputImage;
+
+    std::shared_ptr<ImFlow::InPin<Image>> topImagePin;
+    std::shared_ptr<ImFlow::InPin<float>> exposurePin;
+    std::shared_ptr<ImFlow::OutPin<Image>> outputImagePin;
+
+    ImVec4 topFallbackColor;
+    float exposure = 1.0f;
+
+    bool showTopColorPicker = false;
+    ImVec2 pickerPosition;
+};
+
+class GammaNode : public ImFlow::BaseNode {
+public:
+    GammaNode();
+    void draw() override;
+    void execute() override;
+
+private:
+    void applyGamma(float Gamma);
+    Image topImage;
+    Image outputImage;
+
+    std::shared_ptr<ImFlow::InPin<Image>> topImagePin;
+    std::shared_ptr<ImFlow::InPin<float>> gammaPin;
+    std::shared_ptr<ImFlow::OutPin<Image>> outputImagePin;
+
+    ImVec4 topFallbackColor;
+    float gamma = 1.0f;
+
+    bool showTopColorPicker = false;
+    ImVec2 pickerPosition;
 };
