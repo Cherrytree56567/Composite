@@ -1,0 +1,27 @@
+# ninja log v6
+70	4870	7578481263891637	CMakeFiles/Composite.dir/src/main.cpp.o	53610af71a0d9ec
+148	4519	7578342557496848	CMakeFiles/glfw.dir/vendor/GLFW/src/cpp/emscripten/glfw3/ErrorHandler.cpp.o	e2cbcd2545896a3a
+117	7827	7578475329551291	CMakeFiles/imgui.dir/vendor/ImGui/imgui_tables.cpp.o	468c3afe6b829e2b
+89	9228	7578475329259234	CMakeFiles/imgui.dir/vendor/ImGui/imgui_draw.cpp.o	fce578e116befd8
+117	5950	7578342557186252	CMakeFiles/glfw.dir/vendor/GLFW/src/cpp/emscripten/glfw3/Clipboard.cpp.o	d8c2ff4005b897f8
+206	9842	7578475330442607	CMakeFiles/Composite.dir/src/Input/Input.cpp.o	daeaea15b39b8e1d
+192	6751	7578342557974812	CMakeFiles/glfw.dir/vendor/GLFW/src/cpp/emscripten/glfw3/Keyboard.cpp.o	ccd6dd4ac6281fd2
+78	13642	7578475329153634	CMakeFiles/imgui.dir/vendor/ImGui/imgui.cpp.o	6af6c9763f255062
+102	9534	7578475329397225	CMakeFiles/imgui.dir/vendor/ImGui/imgui_widgets.cpp.o	12a33e68cf0662cb
+165	4849	7578342557665206	CMakeFiles/glfw.dir/vendor/GLFW/src/cpp/emscripten/glfw3/Joystick.cpp.o	790164c90f946b3c
+100	8205	7578342556991423	CMakeFiles/glfw.dir/vendor/GLFW/src/cpp/glfw3.cpp.o	ef4d37d3598b2309
+247	72998	7578342558514344	CMakeFiles/glad.dir/vendor/Glad/src/glad.c.o	5bb649d463fd2cf6
+164	6487	7578475330010527	CMakeFiles/imgui.dir/vendor/ImGui/backends/imgui_impl_opengl3.cpp.o	de31224f561e3232
+149	6949	7578475329868689	CMakeFiles/imgui.dir/vendor/ImGui/backends/imgui_impl_glfw.cpp.o	28ecf2b34935d624
+214	10221	7578342558153784	CMakeFiles/glfw.dir/vendor/GLFW/src/cpp/emscripten/glfw3/Window.cpp.o	748d5926ca63ae40
+135	10809	7578342557371134	CMakeFiles/glfw.dir/vendor/GLFW/src/cpp/emscripten/glfw3/Context.cpp.o	978bd92b1d35cc3f
+135	7729	7578475329727425	CMakeFiles/imgui.dir/vendor/ImGui/imgui_filedialog.cpp.o	aaaae2a104903f38
+10811	11343	7578342664123702	libglfw.a	6024960fe1932e52
+177	9415	7578475330143271	CMakeFiles/imnodeflow.dir/vendor/ImNodeFlow/src/ImNodeFlow.cpp.o	bc2052a1a39e3426
+6699	13260	7578475396998721	CMakeFiles/Composite.dir/src/Output/Output.cpp.o	f112b0a85cc66920
+189	11190	7578475330292854	CMakeFiles/Composite.dir/src/Color/Color.cpp.o	ece15cf3c93f2902
+72999	73523	7578343286002989	libglad.a	800587c772635bca
+13643	14049	7578475464798923	libimgui.a	d76de9a846dd7ecd
+14049	14398	7578475468780542	libimnodeflow.a	cd3d481728815922
+4872	10668	7578481311874767	Composite.js	dfc10554df3e6128
+80	7695	7578482697191938	Composite.js	a8b7791f12c68f96

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Emscripten GLFW Project</title>
+    <script>
+      // This script loads and initializes the WebAssembly module
+      var Module = {
+        onRuntimeInitialized: function() {
+          console.log('Emscripten Runtime Initialized');
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <h1>My Emscripten GLFW Project</h1>
+    <canvas id="canvas1"></canvas>
+    <script src="composite.js"></script>
+  </body>
+</html>

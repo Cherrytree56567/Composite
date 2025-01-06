@@ -2,7 +2,7 @@
 #include <ImNodeFlow.h>
 #include <imgui.h>
 #include <string>
-#include <GLFW/glfw3.h>
+#include <GLFW/emscripten_glfw3.h>
 #include <stb_image.h>
 #include <imgui_filedialog.h>
 #include "../NodeTypes.h"

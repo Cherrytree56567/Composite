@@ -5,17 +5,28 @@ project(Composite)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -g -s WASM=1 -s SAFE_HEAP=1 -s USE_WEBGL2=1 -s MIN_WEBGL_VERSION=2 -s MAX_WEBGL_VERSION=2 -sASSERTIONS --source-map")
+
 # Specify vendor libraries
 set(VENDOR_DIR "${CMAKE_SOURCE_DIR}/vendor")
 
 # ----------------------
-# GLFW (Precompiled)
+# GLFW (Non-Precompiled)
 # ----------------------
-add_library(glfw STATIC IMPORTED)
-set_target_properties(glfw PROPERTIES
-    IMPORTED_LOCATION "${VENDOR_DIR}/glfw/lib-vc2022/glfw3.lib"
-    INTERFACE_INCLUDE_DIRECTORIES "${VENDOR_DIR}/glfw/include"
+add_library(glfw STATIC
+    ${VENDOR_DIR}/glfw/src/cpp/glfw3.cpp
+    ${VENDOR_DIR}/glfw/src/cpp/emscripten/glfw3/Clipboard.cpp
+    ${VENDOR_DIR}/glfw/src/cpp/emscripten/glfw3/Context.cpp
+    ${VENDOR_DIR}/glfw/src/cpp/emscripten/glfw3/ErrorHandler.cpp
+    ${VENDOR_DIR}/glfw/src/cpp/emscripten/glfw3/Joystick.cpp
+    ${VENDOR_DIR}/glfw/src/cpp/emscripten/glfw3/Keyboard.cpp
+    ${VENDOR_DIR}/glfw/src/cpp/emscripten/glfw3/Window.cpp
 )
+target_include_directories(glfw PUBLIC
+    ${VENDOR_DIR}/glfw/include/
+    ${VENDOR_DIR}/glfw/external/
+)
+target_link_options(glfw PUBLIC "--js-library" "${VENDOR_DIR}/glfw/src/js/lib_emscripten_glfw3.js")
 
 # ----------------------
 # Glad
