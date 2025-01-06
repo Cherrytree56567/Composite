@@ -123,6 +123,8 @@ int main() {
             if (ImGui::BeginMenu("Render")) {
                 if (ImGui::MenuItem("Render Image")) {
                     //std::thread t(graph.executeAll);
+                    graph.executeAll();
+                    graph.exportToXML("test.txt");
                 }
                 
                 ImGui::EndMenu();

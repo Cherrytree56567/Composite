@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompositorPipeline>
+    <Nodes>
+        <Node id="2017052608960" type="Composite"/>
+        <Node id="2017051622640" type="Color Balance"/>
+    </Nodes>
+</CompositorPipeline>

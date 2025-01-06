@@ -86,7 +86,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/Composite/vendor/glfw/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -109,10 +109,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;IMGUI_DEFINE_MATH_OPERATORS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -120,7 +120,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;Debug\glad.lib;Debug\imgui.lib;Debug\imnodeflow.lib;Debug\imgui.lib;D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;Debug\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;Debug\glad.lib;Debug\imgui.lib;Debug\imnodeflow.lib;Debug\TinyXML2.lib;Debug\imgui.lib;D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;Debug\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -135,7 +135,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/Composite/vendor/glfw/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -159,10 +159,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;IMGUI_DEFINE_MATH_OPERATORS;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -170,7 +170,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;Release\glad.lib;Release\imgui.lib;Release\imnodeflow.lib;Release\imgui.lib;D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;Release\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;Release\glad.lib;Release\imgui.lib;Release\imnodeflow.lib;Release\TinyXML2.lib;Release\imgui.lib;D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;Release\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -185,7 +185,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/Composite/vendor/glfw/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -209,10 +209,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;IMGUI_DEFINE_MATH_OPERATORS;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -220,7 +220,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;MinSizeRel\glad.lib;MinSizeRel\imgui.lib;MinSizeRel\imnodeflow.lib;MinSizeRel\imgui.lib;D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;MinSizeRel\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;MinSizeRel\glad.lib;MinSizeRel\imgui.lib;MinSizeRel\imnodeflow.lib;MinSizeRel\TinyXML2.lib;MinSizeRel\imgui.lib;D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;MinSizeRel\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -235,7 +235,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/Composite/vendor/glfw/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -258,10 +258,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;IMGUI_DEFINE_MATH_OPERATORS;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Composite\vendor\stb;D:\Composite\vendor\glad\include;D:\Composite\vendor\imgui;D:\Composite\vendor\imgui\backends;D:\Composite\vendor\ImNodeFlow\include;D:\Composite\vendor\tinyxml2;D:\Composite\vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -269,7 +269,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;RelWithDebInfo\glad.lib;RelWithDebInfo\imgui.lib;RelWithDebInfo\imnodeflow.lib;RelWithDebInfo\imgui.lib;D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;RelWithDebInfo\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;RelWithDebInfo\glad.lib;RelWithDebInfo\imgui.lib;RelWithDebInfo\imnodeflow.lib;RelWithDebInfo\TinyXML2.lib;RelWithDebInfo\imgui.lib;D:\Composite\vendor\glfw\lib-vc2022\glfw3.lib;RelWithDebInfo\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -352,6 +352,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Composite\build\TinyXML2.vcxproj">
+      <Project>{20F18678-B1AF-332E-8D50-D840078A6B5F}</Project>
+      <Name>TinyXML2</Name>
     </ProjectReference>
     <ProjectReference Include="D:\Composite\build\glad.vcxproj">
       <Project>{6A2A6BD5-0F3E-3233-A54F-202CDE9FFF73}</Project>

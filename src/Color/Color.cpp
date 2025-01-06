@@ -75,56 +75,39 @@ void ColorBalanceNode::draw() {
         }
         ImGui::PopItemWidth();
     }
-
-    if (ImGui::Button("Exec")) {
-        executeColorBalance();
-    }
-}
-
-void ColorBalanceNode::executeColorBalance() {
-    for (size_t i = 0; i < imageData.pixels.size(); i += imageData.channels) {
-        float originalRed = imageDataOld.pixels[i] / 255.0f;
-        float adjustedRed = std::pow((originalRed + lift[0]) * gain[0], gamma[0]);
-        imageData.pixels[i] = static_cast<uint8_t>(
-            std::clamp(
-                static_cast<int>(
-                    (originalRed * (1.0f - factor) + adjustedRed * factor) * 255.0f
-                ), 
-                0, 255
-            )
-        );
-
-        if (imageData.channels > 1) {
-            float originalGreen = imageDataOld.pixels[i + 1] / 255.0f;
-            float adjustedGreen = std::pow((originalGreen + lift[1]) * gain[1], gamma[1]);
-            imageData.pixels[i + 1] = static_cast<uint8_t>(
-                std::clamp(
-                    static_cast<int>(
-                        (originalGreen * (1.0f - factor) + adjustedGreen * factor) * 255.0f
-                    ), 
-                    0, 255
-                )
-            );
-        }
-
-        if (imageData.channels > 2) {
-            float originalBlue = imageDataOld.pixels[i + 2] / 255.0f;
-            float adjustedBlue = std::pow((originalBlue + lift[2]) * gain[2], gamma[2]);
-            imageData.pixels[i + 2] = static_cast<uint8_t>(
-                std::clamp(
-                    static_cast<int>(
-                        (originalBlue * (1.0f - factor) + adjustedBlue * factor) * 255.0f
-                    ), 
-                    0, 255
-                )
-            );
-        }
-    }
 }
 
 void ColorBalanceNode::execute() {
-    std::cout << "Executing Node: Color Balance Node" << "\n";
-    executeColorBalance();
+    if (imageDataPin->isConnected()) {
+        m_insa.push_back({"Image", std::to_string(imageDataPin->getLink().lock()->right()->getParent()->getUID())});
+    } else {
+        m_insa.push_back({"Image", "NONE"});
+    }
+    if (!liftDataPin->isConnected()) {
+        m_params.push_back({"Lift", std::to_string(lift[0]) + ", " + std::to_string(lift[1]) + ", " + std::to_string(lift[2])});
+    } else {
+        m_insa.push_back({"Lift", std::to_string(liftDataPin->getLink().lock()->right()->getParent()->getUID())});
+    }
+    if (!gainDataPin->isConnected()) {
+        m_params.push_back({"Gain", std::to_string(gain[0]) + ", " + std::to_string(gain[1]) + ", " + std::to_string(gain[2])});
+    } else {
+        m_insa.push_back({"Gain", std::to_string(gainDataPin->getLink().lock()->right()->getParent()->getUID())});
+    }
+    if (!gammaDataPin->isConnected()) {
+        m_params.push_back({"Gamma", std::to_string(gamma[0]) + ", " + std::to_string(gamma[1]) + ", " + std::to_string(gamma[2])});
+    } else {
+        m_insa.push_back({"Gamma", std::to_string(gammaDataPin->getLink().lock()->right()->getParent()->getUID())});
+    }
+    if (!factorDataPin->isConnected()) {
+        m_params.push_back({"Factor", std::to_string(factor)});
+    } else {
+        m_insa.push_back({"Factor", std::to_string(factorDataPin->getLink().lock()->right()->getParent()->getUID())});
+    }
+    if (outputImagePin->isConnected()) {
+        m_outsa.push_back({"Image", std::to_string(outputImagePin->getLink().lock()->right()->getParent()->getUID())});
+    } else {
+        m_insa.push_back({"Image", "NONE"});
+    }
 }
 
 ColorCorrectionNode::ColorCorrectionNode() {
@@ -155,47 +138,10 @@ void ColorCorrectionNode::draw() {
     ImGui::PopItemWidth();
 }
 
-void ColorCorrectionNode::applyColorCorrection() {
-    for (size_t i = 0; i < imageData.pixels.size(); i += imageData.channels) {
-        float rOld = imageDataOld.pixels[i] / 255.0f;
-        float gOld = imageDataOld.pixels[i + 1] / 255.0f;
-        float bOld = imageDataOld.pixels[i + 2] / 255.0f;
-
-        float r = imageData.pixels[i] / 255.0f;
-        float g = imageData.pixels[i + 1] / 255.0f;
-        float b = imageData.pixels[i + 2] / 255.0f;
-
-        r = std::min(std::max(rOld * brightness, 0.0f), 1.0f);
-        g = std::min(std::max(gOld * brightness, 0.0f), 1.0f);
-        b = std::min(std::max(bOld * brightness, 0.0f), 1.0f);
-
-        r = std::min(std::max(((r - 0.5f) * contrast) + 0.5f, 0.0f), 1.0f);
-        g = std::min(std::max(((g - 0.5f) * contrast) + 0.5f, 0.0f), 1.0f);
-        b = std::min(std::max(((b - 0.5f) * contrast) + 0.5f, 0.0f), 1.0f);
-
-        float gray = (r + g + b) / 3.0f;
-        r = gray + (r - gray) * saturation;
-        g = gray + (g - gray) * saturation;
-        b = gray + (b - gray) * saturation;
-
-        r = std::min(std::max(r, 0.0f), 1.0f);
-        g = std::min(std::max(g, 0.0f), 1.0f);
-        b = std::min(std::max(b, 0.0f), 1.0f);
-
-        imageData.pixels[i] = static_cast<unsigned char>(r * 255.0f);
-        imageData.pixels[i + 1] = static_cast<unsigned char>(g * 255.0f);
-        imageData.pixels[i + 2] = static_cast<unsigned char>(b * 255.0f);
-
-        if (imageData.channels == 4) {
-            unsigned char a = imageData.pixels[i + 3];
-            imageData.pixels[i + 3] = a;
-        }
-    }
-}
-
 void ColorCorrectionNode::execute() {
-    std::cout << "Executing Node: Color Correction Node" << "\n";
-    applyColorCorrection();
+    m_params.push_back({"Brightness", std::to_string(brightness)});
+    m_params.push_back({"Contrast", std::to_string(contrast)});
+    m_params.push_back({"Saturation", std::to_string(saturation)});
 }
 
 AlphaOverNode::AlphaOverNode() {

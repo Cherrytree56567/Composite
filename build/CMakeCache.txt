@@ -198,10 +198,13 @@ Composite_IS_TOP_LEVEL:STATIC=ON
 Composite_SOURCE_DIR:STATIC=D:/Composite
 
 //Dependencies for the target
+TinyXML2_LIB_DEPENDS:STATIC=general;imgui;general;glfw;general;glad;
+
+//Dependencies for the target
 imgui_LIB_DEPENDS:STATIC=general;glfw;general;glad;
 
 //Dependencies for the target
-imnodeflow_LIB_DEPENDS:STATIC=general;imgui;general;glfw;general;glad;
+imnodeflow_LIB_DEPENDS:STATIC=general;TinyXML2;general;imgui;general;glfw;general;glad;
 
 
 ########################

@@ -178,6 +178,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{48CA0228-77CF-33D9-BF41-2F43F4D17BBD}</Project>
       <Name>Composite</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Composite\build\TinyXML2.vcxproj">
+      <Project>{20F18678-B1AF-332E-8D50-D840078A6B5F}</Project>
+      <Name>TinyXML2</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Composite\build\glad.vcxproj">
       <Project>{6A2A6BD5-0F3E-3233-A54F-202CDE9FFF73}</Project>
       <Name>glad</Name>
