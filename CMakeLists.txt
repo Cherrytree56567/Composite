@@ -48,6 +48,17 @@ target_include_directories(imgui PUBLIC
 target_link_libraries(imgui PRIVATE glfw glad)
 
 # ----------------------
+# TinyXML2
+# ----------------------
+add_library(tinyxml2 STATIC
+    ${VENDOR_DIR}/tinyxml2/tinyxml2.cpp
+)
+target_include_directories(tinyxml2 PUBLIC
+    ${VENDOR_DIR}/tinyxml2/
+)
+target_link_libraries(tinyxml2 PRIVATE imgui glfw glad)
+
+# ----------------------
 # ImNodeFlow
 # ----------------------
 add_library(imnodeflow STATIC
@@ -56,7 +67,7 @@ add_library(imnodeflow STATIC
 target_include_directories(imnodeflow PUBLIC
     ${VENDOR_DIR}/ImNodeFlow/include/
 )
-target_link_libraries(imnodeflow PRIVATE imgui glfw glad)
+target_link_libraries(imnodeflow PRIVATE imgui glfw glad tinyxml2)
 
 # ----------------------
 # Main Application
@@ -73,4 +84,4 @@ target_include_directories(Composite PUBLIC
 )
 
 # Link libraries to the application
-target_link_libraries(Composite PRIVATE glfw glad imgui imnodeflow)
+target_link_libraries(Composite PRIVATE glfw glad imgui imnodeflow tinyxml2)

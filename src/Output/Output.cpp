@@ -19,8 +19,15 @@ OutputNode::~OutputNode() {
     }
 }
 
+void OutputNode::execute() {
+    m_insa.clear();
+    if (imageDataPin->isConnected()) {
+        auto parent = imageDataPin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    }
+}
+
 void OutputNode::draw() {
-    imageData = imageDataPin->val();
 
     glDeleteTextures(1, &textureID);  // Delete old texture
         

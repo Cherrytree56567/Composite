@@ -13,7 +13,6 @@ public:
     void execute() override;
 
 private:
-    void executeColorBalance();
     Image imageData;
     Image imageDataOld;
     GLuint textureID;
@@ -41,8 +40,6 @@ public:
     void execute() override;
 
 private:
-    void applyColorCorrection();
-
     float brightness;
     float contrast;
     float saturation;
@@ -66,9 +63,7 @@ public:
     void execute() override;
 
 private:
-    void applyAlphaOver(float alphaFactor);
     void showColorPicker(const char* title, ImVec4& color);
-    void scaleFallbackImage(Image& fallbackImage, const Image& targetImage, const ImVec4& fallbackColor);
 
     Image topImage;
     Image bottomImage;
@@ -95,7 +90,6 @@ public:
     void execute() override;
 
 private:
-    void applyExposure(float ExposureFactor);
     Image topImage;
     Image outputImage;
 
@@ -117,7 +111,6 @@ public:
     void execute() override;
 
 private:
-    void applyGamma(float Gamma);
     Image topImage;
     Image outputImage;
 

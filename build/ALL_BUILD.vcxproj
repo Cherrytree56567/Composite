@@ -190,6 +190,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{9983C6B3-D379-3EBA-BC8E-F0C54C828B32}</Project>
       <Name>imnodeflow</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Composite\build\tinyxml2.vcxproj">
+      <Project>{6F550EC4-F85D-3BD7-9FEB-4A50F499E303}</Project>
+      <Name>tinyxml2</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -17,7 +17,6 @@ ImageNode::ImageNode() {
 }
 
 ImageNode::~ImageNode() {
-    // Delete the OpenGL texture if it exists
     if (textureID != 0) {
         glDeleteTextures(1, &textureID);
     }
@@ -85,4 +84,10 @@ bool ImageNode::loadImage(const std::string& filePath) {
         return true;
     }
     return false;
+}
+
+void ImageNode::execute() {
+    m_insa.clear();
+    m_params.clear();
+    m_params.push_back({"image", imageData.path});
 }

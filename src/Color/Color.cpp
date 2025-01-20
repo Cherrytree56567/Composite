@@ -75,56 +75,39 @@ void ColorBalanceNode::draw() {
         }
         ImGui::PopItemWidth();
     }
-
-    if (ImGui::Button("Exec")) {
-        executeColorBalance();
-    }
-}
-
-void ColorBalanceNode::executeColorBalance() {
-    for (size_t i = 0; i < imageData.pixels.size(); i += imageData.channels) {
-        float originalRed = imageDataOld.pixels[i] / 255.0f;
-        float adjustedRed = std::pow((originalRed + lift[0]) * gain[0], gamma[0]);
-        imageData.pixels[i] = static_cast<uint8_t>(
-            std::clamp(
-                static_cast<int>(
-                    (originalRed * (1.0f - factor) + adjustedRed * factor) * 255.0f
-                ), 
-                0, 255
-            )
-        );
-
-        if (imageData.channels > 1) {
-            float originalGreen = imageDataOld.pixels[i + 1] / 255.0f;
-            float adjustedGreen = std::pow((originalGreen + lift[1]) * gain[1], gamma[1]);
-            imageData.pixels[i + 1] = static_cast<uint8_t>(
-                std::clamp(
-                    static_cast<int>(
-                        (originalGreen * (1.0f - factor) + adjustedGreen * factor) * 255.0f
-                    ), 
-                    0, 255
-                )
-            );
-        }
-
-        if (imageData.channels > 2) {
-            float originalBlue = imageDataOld.pixels[i + 2] / 255.0f;
-            float adjustedBlue = std::pow((originalBlue + lift[2]) * gain[2], gamma[2]);
-            imageData.pixels[i + 2] = static_cast<uint8_t>(
-                std::clamp(
-                    static_cast<int>(
-                        (originalBlue * (1.0f - factor) + adjustedBlue * factor) * 255.0f
-                    ), 
-                    0, 255
-                )
-            );
-        }
-    }
 }
 
 void ColorBalanceNode::execute() {
-    std::cout << "Executing Node: Color Balance Node" << "\n";
-    executeColorBalance();
+    m_insa.clear();
+    m_params.clear();
+    if (imageDataPin->isConnected()) {
+        auto parent = imageDataPin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    }
+    if (liftDataPin->isConnected()) {
+        auto parent = liftDataPin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"lift", std::to_string(lift[0]) + ", " + std::to_string(lift[1]) + ", " + std::to_string(lift[2])});
+    }
+    if (gainDataPin->isConnected()) {
+        auto parent = gainDataPin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"gain", std::to_string(gain[0]) + ", " + std::to_string(gain[1]) + ", " + std::to_string(gain[2])});
+    }
+    if (gammaDataPin->isConnected()) {
+        auto parent = gammaDataPin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"gamma", std::to_string(gamma[0]) + ", " + std::to_string(gamma[1]) + ", " + std::to_string(gamma[2])});
+    }
+    if (factorDataPin->isConnected()) {
+        auto parent = factorDataPin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"factor", std::to_string(factor)});
+    }
 }
 
 ColorCorrectionNode::ColorCorrectionNode() {
@@ -155,47 +138,16 @@ void ColorCorrectionNode::draw() {
     ImGui::PopItemWidth();
 }
 
-void ColorCorrectionNode::applyColorCorrection() {
-    for (size_t i = 0; i < imageData.pixels.size(); i += imageData.channels) {
-        float rOld = imageDataOld.pixels[i] / 255.0f;
-        float gOld = imageDataOld.pixels[i + 1] / 255.0f;
-        float bOld = imageDataOld.pixels[i + 2] / 255.0f;
-
-        float r = imageData.pixels[i] / 255.0f;
-        float g = imageData.pixels[i + 1] / 255.0f;
-        float b = imageData.pixels[i + 2] / 255.0f;
-
-        r = std::min(std::max(rOld * brightness, 0.0f), 1.0f);
-        g = std::min(std::max(gOld * brightness, 0.0f), 1.0f);
-        b = std::min(std::max(bOld * brightness, 0.0f), 1.0f);
-
-        r = std::min(std::max(((r - 0.5f) * contrast) + 0.5f, 0.0f), 1.0f);
-        g = std::min(std::max(((g - 0.5f) * contrast) + 0.5f, 0.0f), 1.0f);
-        b = std::min(std::max(((b - 0.5f) * contrast) + 0.5f, 0.0f), 1.0f);
-
-        float gray = (r + g + b) / 3.0f;
-        r = gray + (r - gray) * saturation;
-        g = gray + (g - gray) * saturation;
-        b = gray + (b - gray) * saturation;
-
-        r = std::min(std::max(r, 0.0f), 1.0f);
-        g = std::min(std::max(g, 0.0f), 1.0f);
-        b = std::min(std::max(b, 0.0f), 1.0f);
-
-        imageData.pixels[i] = static_cast<unsigned char>(r * 255.0f);
-        imageData.pixels[i + 1] = static_cast<unsigned char>(g * 255.0f);
-        imageData.pixels[i + 2] = static_cast<unsigned char>(b * 255.0f);
-
-        if (imageData.channels == 4) {
-            unsigned char a = imageData.pixels[i + 3];
-            imageData.pixels[i + 3] = a;
-        }
-    }
-}
-
 void ColorCorrectionNode::execute() {
-    std::cout << "Executing Node: Color Correction Node" << "\n";
-    applyColorCorrection();
+    m_insa.clear();
+    m_params.clear();
+    if (imageDataPin->isConnected()) {
+        auto parent = imageDataPin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    }
+    m_params.push_back({"brightness", std::to_string(brightness)});
+    m_params.push_back({"contrast", std::to_string(contrast)});
+    m_params.push_back({"saturation", std::to_string(saturation)});
 }
 
 AlphaOverNode::AlphaOverNode() {
@@ -275,73 +227,27 @@ void AlphaOverNode::showColorPicker(const char* title, ImVec4& color) {
     ImGui::End();
 }
 
-void AlphaOverNode::scaleFallbackImage(Image& fallbackImage, const Image& targetImage, const ImVec4& fallbackColor) {
-    fallbackImage.width = targetImage.width;
-    fallbackImage.height = targetImage.height;
-    fallbackImage.channels = targetImage.channels;
-    fallbackImage.pixels.resize(targetImage.width * targetImage.height * targetImage.channels);
-
-    for (size_t i = 0; i < fallbackImage.pixels.size(); i += fallbackImage.channels) {
-        fallbackImage.pixels[i] = static_cast<unsigned char>(fallbackColor.x * 255); // R
-        fallbackImage.pixels[i + 1] = static_cast<unsigned char>(fallbackColor.y * 255); // G
-        fallbackImage.pixels[i + 2] = static_cast<unsigned char>(fallbackColor.z * 255); // B
-
-        if (fallbackImage.channels == 4) {
-            fallbackImage.pixels[i + 3] = static_cast<unsigned char>(fallbackColor.w * 255); // A
-        }
-    }
-}
-
-void AlphaOverNode::applyAlphaOver(float alphaFactor) {
-    if (!topImagePin->isConnected() && !bottomImagePin->isConnected()) {
-        topImage = {512, 512, 4};
-        bottomImage = {512, 512, 4};
-        scaleFallbackImage(topImage, bottomImage, topFallbackColor);
-        scaleFallbackImage(bottomImage, topImage, bottomFallbackColor);
-    } else if (topImagePin->isConnected() && !bottomImagePin->isConnected()) {
-        topImage = topImagePin->val();
-        scaleFallbackImage(bottomImage, topImage, bottomFallbackColor);
-    } else if (!topImagePin->isConnected() && bottomImagePin->isConnected()) {
-        bottomImage = bottomImagePin->val();
-        scaleFallbackImage(topImage, bottomImage, topFallbackColor);
-    } else {
-        topImage = topImagePin->val();
-        bottomImage = bottomImagePin->val();
-    }
-
-    if (topImage.width != bottomImage.width || topImage.height != bottomImage.height || topImage.channels != bottomImage.channels) {
-        return;
-    }
-
-    outputImage.width = topImage.width;
-    outputImage.height = topImage.height;
-    outputImage.channels = topImage.channels;
-    outputImage.pixels.resize(topImage.pixels.size());
-
-    for (size_t i = 0; i < topImage.pixels.size(); i += topImage.channels) {
-        float topAlpha = (topImage.channels == 4) ? topImage.pixels[i + 3] / 255.0f : 1.0f;
-        float bottomAlpha = (bottomImage.channels == 4) ? bottomImage.pixels[i + 3] / 255.0f : 1.0f;
-
-        float outAlpha = topAlpha * alphaFactor + bottomAlpha * (1.0f - topAlpha * alphaFactor);
-
-        for (size_t j = 0; j < 3; ++j) {
-            float topVal = topImage.pixels[i + j] / 255.0f;
-            float bottomVal = bottomImage.pixels[i + j] / 255.0f;
-
-            float blendedVal = (topVal * topAlpha * alphaFactor + bottomVal * bottomAlpha * (1.0f - topAlpha * alphaFactor)) / outAlpha;
-
-            outputImage.pixels[i + j] = static_cast<unsigned char>(blendedVal * 255);
-        }
-
-        if (topImage.channels == 4) {
-            outputImage.pixels[i + 3] = static_cast<unsigned char>(outAlpha * 255);
-        }
-    }
-}
-
 void AlphaOverNode::execute() {
-    std::cout << "Executing Node: Alpha Over Node" << "\n";
-    applyAlphaOver(alphaFactor);
+    m_insa.clear();
+    m_params.clear();
+    if (topImagePin->isConnected()) {
+        auto parent = topImagePin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"color", std::to_string(topFallbackColor.x) + ", " + std::to_string(topFallbackColor.y) + ", " + std::to_string(topFallbackColor.z) + ", " + std::to_string(topFallbackColor.w)});
+    }
+    if (bottomImagePin->isConnected()) {
+        auto parent = bottomImagePin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"color", std::to_string(bottomFallbackColor.x) + ", " + std::to_string(bottomFallbackColor.y) + ", " + std::to_string(bottomFallbackColor.z) + ", " + std::to_string(bottomFallbackColor.w)});
+    }
+    if (factorPin->isConnected()) {
+        auto parent = factorPin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"factor", std::to_string(alphaFactor)});
+    }
 }
 
 ExposureNode::ExposureNode() {
@@ -391,51 +297,21 @@ void ExposureNode::draw() {
     }
 }
 
-void ExposureNode::applyExposure(float ExposureFactor) {
-    if (topImagePin && topImagePin->isConnected()) {
-        topImage = topImagePin->val();
-    } else {
-        topImage = Image(512, 512, 4);
-        topImage.pixels.resize(topImage.width * topImage.height * topImage.channels);
-
-        unsigned char r = static_cast<unsigned char>(topFallbackColor.x * 255);
-        unsigned char g = static_cast<unsigned char>(topFallbackColor.y * 255);
-        unsigned char b = static_cast<unsigned char>(topFallbackColor.z * 255);
-        unsigned char a = static_cast<unsigned char>(topFallbackColor.w * 255);
-
-        for (size_t i = 0; i < topImage.pixels.size(); i += 4) {
-            topImage.pixels[i] = r;
-            topImage.pixels[i + 1] = g;
-            topImage.pixels[i + 2] = b;
-            topImage.pixels[i + 3] = a;
-        }
-    }
-
-    auto applyExposure = [](float value, float exposure) -> float {
-        return 1.0f - std::exp(-value * exposure);
-    };
-
-    outputImage.width = topImage.width;
-    outputImage.height = topImage.height;
-    outputImage.channels = topImage.channels;
-    outputImage.pixels.resize(topImage.pixels.size());
-
-    for (size_t i = 0; i < topImage.pixels.size(); i += topImage.channels) {
-        for (size_t j = 0; j < 3; ++j) {
-            float topVal = topImage.pixels[i + j] / 255.0f;
-            float exposedVal = applyExposure(topVal, exposure);
-            outputImage.pixels[i + j] = static_cast<unsigned char>(exposedVal * 255);
-        }
-
-        if (topImage.channels == 4) {
-            outputImage.pixels[i + 3] = topImage.pixels[i + 3];
-        }
-    }
-}
-
 void ExposureNode::execute() {
-    std::cout << "Executing Node: Exposure Node" << "\n";
-    applyExposure(exposure);
+    m_insa.clear();
+    m_params.clear();
+    if (topImagePin->isConnected()) {
+        auto parent = topImagePin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"color", std::to_string(topFallbackColor.x) + ", " + std::to_string(topFallbackColor.y) + ", " + std::to_string(topFallbackColor.z) + ", " + std::to_string(topFallbackColor.w)});
+    }
+    if (exposurePin->isConnected()) {
+        auto parent = exposurePin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"exposure", std::to_string(exposure)});
+    }
 }
 
 GammaNode::GammaNode() {
@@ -485,49 +361,19 @@ void GammaNode::draw() {
     }
 }
 
-void GammaNode::applyGamma(float Gamma) {
-    if (topImagePin && topImagePin->isConnected()) {
-        topImage = topImagePin->val();
-    } else {
-        topImage = Image(512, 512, 4);
-        topImage.pixels.resize(topImage.width * topImage.height * topImage.channels);
-
-        unsigned char r = static_cast<unsigned char>(topFallbackColor.x * 255);
-        unsigned char g = static_cast<unsigned char>(topFallbackColor.y * 255);
-        unsigned char b = static_cast<unsigned char>(topFallbackColor.z * 255);
-        unsigned char a = static_cast<unsigned char>(topFallbackColor.w * 255);
-
-        for (size_t i = 0; i < topImage.pixels.size(); i += 4) {
-            topImage.pixels[i] = r;
-            topImage.pixels[i + 1] = g;
-            topImage.pixels[i + 2] = b;
-            topImage.pixels[i + 3] = a;
-        }
-    }
-
-    auto applyGamma = [](float value, float gamma) -> float {
-        return std::pow(value, gamma);
-    };
-
-    outputImage.width = topImage.width;
-    outputImage.height = topImage.height;
-    outputImage.channels = topImage.channels;
-    outputImage.pixels.resize(topImage.pixels.size());
-
-    for (size_t i = 0; i < topImage.pixels.size(); i += topImage.channels) {
-        for (size_t j = 0; j < 3; ++j) {
-            float topVal = topImage.pixels[i + j] / 255.0f;
-            float gammaCorrectedVal = applyGamma(topVal, gamma);
-            outputImage.pixels[i + j] = static_cast<unsigned char>(gammaCorrectedVal * 255);
-        }
-
-        if (topImage.channels == 4) {
-            outputImage.pixels[i + 3] = topImage.pixels[i + 3];
-        }
-    }
-}
-
 void GammaNode::execute() {
-    std::cout << "Executing Node: Gamma Node" << "\n";
-    applyGamma(gamma);
+    m_insa.clear();
+    m_params.clear();
+    if (topImagePin->isConnected()) {
+        auto parent = topImagePin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"color", std::to_string(topFallbackColor.x) + ", " + std::to_string(topFallbackColor.y) + ", " + std::to_string(topFallbackColor.z) + ", " + std::to_string(topFallbackColor.w)});
+    }
+    if (gammaPin->isConnected()) {
+        auto parent = gammaPin->getLink().lock()->left()->getParent();
+        m_insa.push_back({parent->getName(), std::to_string(parent->getUID())});
+    } else {
+        m_params.push_back({"gamma", std::to_string(gamma)});
+    }
 }

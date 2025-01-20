@@ -12,6 +12,7 @@ public:
     ImageNode();
     ~ImageNode();
     void draw() override;
+    void execute() override;
 
 private:
     bool loadImage(const std::string& filePath);

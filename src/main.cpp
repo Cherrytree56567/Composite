@@ -5,6 +5,7 @@
 #include <backends/imgui_impl_opengl3.h>
 #include <GLFW/glfw3.h>
 #include <thread>
+#include <windows.h>
 #include "Input/Input.h"
 #include "Output/Output.h"
 #include "Color/Color.h"
@@ -13,6 +14,16 @@
 #include <stb_image.h>
 
 #pragma comment(lib, "opengl32.lib")
+
+std::string OutPath = "output.png";
+
+bool IsProcessRunning(HANDLE hProcess) {
+    DWORD exitCode;
+    if (GetExitCodeProcess(hProcess, &exitCode)) {
+        return (exitCode == STILL_ACTIVE);
+    }
+    return false;
+}
 
 int main() {
     if (!glfwInit()) {
@@ -38,6 +49,18 @@ int main() {
     ImFlow::ImNodeFlow graph;
     auto nodea = graph.addNode<OutputNode>(ImVec2(100, 100));
     auto nodeb = graph.addNode<ColorBalanceNode>(ImVec2(100, 100));
+    ImFileDialogInfo fileDialogInfo;
+    bool openFileDialog = false;
+
+    PROCESS_INFORMATION pi = {0};
+    bool sss = false;
+
+    fileDialogInfo.title = "Open File";
+    fileDialogInfo.directoryPath = std::filesystem::current_path();
+    fileDialogInfo.type = ImGuiFileDialogType_SaveFile;
+    fileDialogInfo.fileFilterFunc = std::function<bool(std::string)>([](std::string filename) {
+        return filename.ends_with(".png") || filename.ends_with(".jpg");
+    });
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
@@ -123,6 +146,8 @@ int main() {
             if (ImGui::BeginMenu("Render")) {
                 if (ImGui::MenuItem("Render Image")) {
                     graph.executeAll();
+                    graph.exportToXML("output.xml");
+                    openFileDialog = true;
                 }
                 
                 ImGui::EndMenu();
@@ -141,6 +166,29 @@ int main() {
 
         if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
             ImGui::OpenPopup("RightClickToolbar");
+        }
+
+        if (ImGui::FileDialog(&openFileDialog, &fileDialogInfo)) {
+            if (fileDialogInfo.resultPath.c_str() != nullptr) {
+                OutPath = fileDialogInfo.resultPath.string();
+                
+                std::string ccommand = "CompositeRenderer.exe output.xml " + OutPath;
+                LPSTR command = const_cast<LPSTR>(ccommand.c_str());
+                std::cout << command;
+
+                STARTUPINFO si = {0};
+                si.cb = sizeof(STARTUPINFO);
+                si.dwFlags = STARTF_USESHOWWINDOW;
+                si.wShowWindow = SW_HIDE;
+
+                if (CreateProcess(NULL, command, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+
+                } else {
+                    std::cout << "[Composite::GUI] Error: Failed to start process : " << GetLastError() << ".\n";
+                }
+                sss = true;
+                fileDialogInfo.resultPath.clear();
+            }
         }
 
         if (ImGui::BeginPopup("RightClickToolbar")) {
@@ -178,6 +226,23 @@ int main() {
             }
 
             ImGui::EndPopup();
+        }
+
+        if (!IsProcessRunning(pi.hProcess) && sss == true) {
+            sss = false;
+            for (const auto& [nodeUID, nodePtr] : graph.m_nodes) {
+                if (!nodePtr) continue;
+
+                if (nodePtr->m_title == "Composite") {
+                    int width, height, channels;
+                    unsigned char* image_data = stbi_load(OutPath.c_str(), &width, &height, &channels, 0);
+                    Image Tep(width, height, channels);
+                    Tep.pixels.resize(width * height * channels);
+                    std::memcpy(Tep.pixels.data(), image_data, width * height * channels);
+                    std::dynamic_pointer_cast<OutputNode>(nodePtr)->writeImageData(Tep);
+                    break;
+                }
+            }
         }
 
         ImGui::Render();

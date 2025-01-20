@@ -201,7 +201,10 @@ Composite_SOURCE_DIR:STATIC=D:/Composite
 imgui_LIB_DEPENDS:STATIC=general;glfw;general;glad;
 
 //Dependencies for the target
-imnodeflow_LIB_DEPENDS:STATIC=general;imgui;general;glfw;general;glad;
+imnodeflow_LIB_DEPENDS:STATIC=general;imgui;general;glfw;general;glad;general;tinyxml2;
+
+//Dependencies for the target
+tinyxml2_LIB_DEPENDS:STATIC=general;imgui;general;glfw;general;glad;
 
 
 ########################

@@ -12,6 +12,8 @@ public:
     OutputNode();
     ~OutputNode();
     void draw() override;
+    void execute() override;
+    void writeImageData(Image s) { imageData = s; }
 
 private:
     void loadTexture(const Image& image);

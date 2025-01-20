@@ -1,0 +1,11 @@
+<Composite>
+    <Nodes>
+        <Composite id="2709045378144" active="true">
+            <in type="image" val="2709046095376"/>
+        </Composite>
+        <Gamma id="2709046095376">
+            <param name="color" val="0.199219, 0.500000, 0.156250, 1.000000"/>
+            <param name="gamma" val="0.430000"/>
+        </Gamma>
+    </Nodes>
+</Composite>
